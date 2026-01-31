@@ -1,6 +1,33 @@
 import { parseHTML } from "linkedom";
 import { Readability } from "@mozilla/readability";
+import * as cheerio from "cheerio";
 import { ArticleData } from "./types";
+
+function extractMetadata(html: string) {
+  const $ = cheerio.load(html);
+
+  const featuredImage =
+    $('meta[property="og:image"]').attr("content") ?? null;
+
+  let publishedDate =
+    $('meta[property="article:published_time"]').attr("content") ?? null;
+
+  let structuredData: Record<string, unknown> | null = null;
+
+  $('script[type="application/ld+json"]').each((_, el) => {
+    try {
+      const json = JSON.parse($(el).html() ?? "");
+      if (!structuredData) structuredData = json;
+      if (!publishedDate && json.datePublished) {
+        publishedDate = json.datePublished;
+      }
+    } catch {
+      // ignore malformed JSON-LD
+    }
+  });
+
+  return { featuredImage, publishedDate, structuredData };
+}
 
 export async function fetchArticle(
   url: string,
@@ -27,6 +54,9 @@ export async function fetchArticle(
   }
 
   try {
+    const { featuredImage, publishedDate, structuredData } =
+      extractMetadata(html);
+
     const { document } = parseHTML(html);
     const reader = new Readability(document);
     const article = reader.parse();
@@ -39,9 +69,13 @@ export async function fetchArticle(
       type: "article",
       title: article.title ?? "",
       text: article.textContent.trim(),
+      htmlContent: article.content ?? null,
       author: article.byline ?? null,
       siteName: article.siteName ?? null,
       excerpt: article.excerpt ?? null,
+      publishedDate,
+      featuredImage,
+      structuredData,
     };
   } catch (err) {
     if (
