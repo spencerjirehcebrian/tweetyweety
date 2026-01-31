@@ -12,11 +12,10 @@ export default function Home() {
               TweetyWeety
             </h1>
             <p className="mt-2 text-lg sm:text-xl font-light tracking-wide text-text-secondary">
-              Convert any X/Twitter link
+              Convert any link to text
             </p>
             <p className="mt-2 text-sm font-light tracking-wide text-text-tertiary">
-              Paste a Twitter/X post or article URL to extract clean, readable
-              text.
+              Paste any URL to extract clean, readable text.
             </p>
           </div>
           <div className="relative">

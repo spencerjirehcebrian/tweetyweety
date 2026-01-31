@@ -51,7 +51,7 @@ export function UrlForm() {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="Paste a Twitter/X or article URL..."
+          placeholder="Paste any URL..."
           className="input-luxury w-full rounded-xl border border-border-default bg-surface-secondary px-5 py-4 pr-28 text-sm text-text-primary placeholder-text-tertiary backdrop-blur-sm"
         />
         <button

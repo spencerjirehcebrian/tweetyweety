@@ -1,9 +1,10 @@
 import * as cheerio from "cheerio";
-import { TwitterData, SingleTweet, TweetMedia } from "./types";
+import { TwitterData, ArticleData, SingleTweet, TweetMedia } from "./types";
 
 function extractTweetPath(url: string): string {
   const parsed = new URL(url);
-  return parsed.pathname;
+  // Rewrite /article/ to /status/ so fxtwitter API can resolve it
+  return parsed.pathname.replace(/\/article\//, "/status/");
 }
 
 interface FxMediaItem {
@@ -11,6 +12,54 @@ interface FxMediaItem {
   url?: string;
   altText?: string;
   thumbnail_url?: string;
+}
+
+interface FxArticleMediaEntity {
+  id?: string;
+  url?: string;
+  thumbnail_url?: string;
+}
+
+interface FxArticleInlineStyle {
+  offset: number;
+  length: number;
+  style: string;
+}
+
+interface FxArticleEntityRange {
+  offset: number;
+  length: number;
+  key: number;
+}
+
+interface FxArticleBlock {
+  type: string;
+  text: string;
+  inlineStyleRanges?: FxArticleInlineStyle[];
+  entityRanges?: FxArticleEntityRange[];
+  data?: Record<string, unknown>;
+}
+
+interface FxArticleEntityMapEntry {
+  type: string;
+  data?: {
+    id?: string;
+    [key: string]: unknown;
+  };
+}
+
+interface FxArticleRaw {
+  title?: string;
+  cover_media?: {
+    url?: string;
+    thumbnail_url?: string;
+  };
+  created_at?: string;
+  content?: {
+    blocks?: FxArticleBlock[];
+    entityMap?: Record<string, FxArticleEntityMapEntry>;
+  };
+  media_entities?: FxArticleMediaEntity[];
 }
 
 interface FxTweetRaw {
@@ -30,6 +79,7 @@ interface FxTweetRaw {
   media?: {
     all?: FxMediaItem[];
   };
+  article?: FxArticleRaw;
 }
 
 interface FxTwitterApiResponse {
@@ -140,12 +190,136 @@ async function fetchParentTweet(
   return mapFxTweetToSingleTweet(raw);
 }
 
+function applyInlineStyles(text: string, styles: FxArticleInlineStyle[]): { plain: string; html: string } {
+  if (!styles.length) return { plain: text, html: text };
+
+  // Build HTML by applying bold ranges
+  const chars = [...text];
+  const boldAt = new Set<number>();
+  for (const s of styles) {
+    if (s.style === "BOLD") {
+      for (let i = s.offset; i < s.offset + s.length && i < chars.length; i++) {
+        boldAt.add(i);
+      }
+    }
+  }
+
+  let html = "";
+  let inBold = false;
+  for (let i = 0; i < chars.length; i++) {
+    if (boldAt.has(i) && !inBold) { html += "<strong>"; inBold = true; }
+    if (!boldAt.has(i) && inBold) { html += "</strong>"; inBold = false; }
+    html += chars[i];
+  }
+  if (inBold) html += "</strong>";
+
+  return { plain: text, html };
+}
+
+function parseArticleBlocks(
+  article: FxArticleRaw
+): { plainText: string; htmlContent: string } {
+  const blocks = article.content?.blocks ?? [];
+  const entityMap = article.content?.entityMap ?? {};
+  const mediaEntities = article.media_entities ?? [];
+
+  const plainParts: string[] = [];
+  const htmlParts: string[] = [];
+
+  for (const block of blocks) {
+    const styles = block.inlineStyleRanges ?? [];
+    const entityRanges = block.entityRanges ?? [];
+
+    switch (block.type) {
+      case "unstyled": {
+        if (!block.text) {
+          htmlParts.push("");
+          plainParts.push("");
+        } else {
+          const styled = applyInlineStyles(block.text, styles);
+          plainParts.push(styled.plain);
+          htmlParts.push(`<p>${styled.html}</p>`);
+        }
+        break;
+      }
+      case "header-two": {
+        const styled = applyInlineStyles(block.text, styles);
+        plainParts.push(`## ${styled.plain}`);
+        htmlParts.push(`<h2>${styled.html}</h2>`);
+        break;
+      }
+      case "atomic": {
+        // Resolve entity from entityRanges
+        const entityKey = entityRanges[0]?.key;
+        const entity = entityKey != null ? entityMap[String(entityKey)] : undefined;
+
+        if (entity?.type === "MEDIA") {
+          const mediaId = entity.data?.id;
+          const mediaItem = mediaEntities.find(m => m.id === mediaId);
+          const imgUrl = mediaItem?.url ?? mediaItem?.thumbnail_url ?? "";
+          if (imgUrl) {
+            plainParts.push(`[Image: ${imgUrl}]`);
+            htmlParts.push(`<img src="${imgUrl}" alt="" />`);
+          }
+        } else if (entity?.type === "DIVIDER") {
+          plainParts.push("---");
+          htmlParts.push("<hr />");
+        } else if (entity?.type === "MARKDOWN") {
+          const code = block.text || "";
+          plainParts.push("```\n" + code + "\n```");
+          htmlParts.push(`<pre><code>${code}</code></pre>`);
+        }
+        break;
+      }
+      default: {
+        // Fallback: treat as paragraph
+        if (block.text) {
+          const styled = applyInlineStyles(block.text, styles);
+          plainParts.push(styled.plain);
+          htmlParts.push(`<p>${styled.html}</p>`);
+        }
+        break;
+      }
+    }
+  }
+
+  return {
+    plainText: plainParts.join("\n\n"),
+    htmlContent: htmlParts.join("\n"),
+  };
+}
+
+function buildArticleData(raw: FxTweetRaw): ArticleData {
+  const article = raw.article!;
+  const { plainText, htmlContent } = parseArticleBlocks(article);
+
+  return {
+    type: "article",
+    title: article.title ?? "Untitled Article",
+    text: plainText,
+    htmlContent,
+    author: raw.author?.name ?? null,
+    siteName: "X",
+    excerpt: plainText.slice(0, 200) || null,
+    publishedDate: article.created_at ?? raw.created_at ?? null,
+    featuredImage: article.cover_media?.url ?? article.cover_media?.thumbnail_url ?? null,
+    structuredData: null,
+  };
+}
+
 async function tryFxTwitterApi(
   tweetPath: string,
   signal: AbortSignal
-): Promise<TwitterData | null> {
+): Promise<TwitterData | ArticleData | null> {
   const raw = await fetchTweetByPath(tweetPath, signal);
-  if (!raw?.text) return null;
+  if (!raw) return null;
+
+  // If the tweet has an article attached, return it as ArticleData
+  if (raw.article) {
+    return buildArticleData(raw);
+  }
+
+  if (!raw.text) return null;
 
   const primaryTweet = mapFxTweetToSingleTweet(raw);
   let thread: SingleTweet[] = [];
@@ -224,7 +398,7 @@ async function tryFxTwitterHtml(
 export async function fetchTwitter(
   url: string,
   signal: AbortSignal
-): Promise<TwitterData> {
+): Promise<TwitterData | ArticleData> {
   const tweetPath = extractTweetPath(url);
 
   const apiResult = await tryFxTwitterApi(tweetPath, signal);

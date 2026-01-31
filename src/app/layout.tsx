@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "TweetyWeety",
-  description: "Convert Twitter/X posts and articles into clean readable text.",
+  description: "Convert any link into clean readable text.",
 };
 
 const themeScript = `
