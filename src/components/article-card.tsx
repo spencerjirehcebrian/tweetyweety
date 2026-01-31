@@ -23,7 +23,7 @@ export function ArticleCard({ data }: ArticleCardProps) {
   }
 
   return (
-    <div className="card rounded-lg overflow-hidden">
+    <div className="card card-accent rounded-xl overflow-hidden">
       {data.featuredImage && (
         <div className="h-48 w-full overflow-hidden bg-surface-secondary">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -37,7 +37,7 @@ export function ArticleCard({ data }: ArticleCardProps) {
 
       <div className="p-4 space-y-3">
         {data.title && (
-          <h2 className="text-lg font-semibold text-text-primary">
+          <h2 className="font-display text-lg font-normal italic text-text-primary">
             {data.title}
           </h2>
         )}
@@ -68,7 +68,7 @@ export function ArticleCard({ data }: ArticleCardProps) {
           </p>
         )}
 
-        <div className="whitespace-pre-wrap leading-relaxed text-[0.9375rem] text-text-primary max-h-[60vh] overflow-y-auto">
+        <div className="article-scroll whitespace-pre-wrap leading-relaxed text-[0.9375rem] text-text-primary max-h-[60vh] overflow-y-auto">
           {data.text}
         </div>
       </div>

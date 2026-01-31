@@ -30,18 +30,24 @@
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
 
   --shadow-natural: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-deep: 0 8px 30px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
+
+  --surface-glow: rgba(224, 147, 59, 0.06);
+  --shadow-glow-accent: 0 0 20px rgba(224, 147, 59, 0.15);
+  --shadow-glow-focus: 0 0 0 3px rgba(224, 147, 59, 0.12);
+  --card-accent-border: rgba(224, 147, 59, 0.4);
+  --noise-opacity: 0.03;
 }
 
 /* ─── Light Theme ─── */
 [data-theme="light"] {
-  --surface-primary: #faf9f7;
-  --surface-secondary: #f0eeeb;
+  --surface-primary: #fffefa;
+  --surface-secondary: #f8f6f1;
   --surface-elevated: #ffffff;
   --surface-overlay: rgba(0, 0, 0, 0.4);
 
@@ -49,12 +55,12 @@
   --text-secondary: #6b6560;
   --text-tertiary: #a8a29e;
 
-  --border-default: rgba(0, 0, 0, 0.1);
-  --border-subtle: rgba(0, 0, 0, 0.05);
-  --border-focus: #c47a2a;
+  --border-default: rgba(120, 100, 70, 0.12);
+  --border-subtle: rgba(120, 100, 70, 0.06);
+  --border-focus: #b06a1e;
 
-  --accent-primary: #c47a2a;
-  --accent-primary-hover: #a86620;
+  --accent-primary: #b06a1e;
+  --accent-primary-hover: #944f10;
   --accent-secondary: #b8493a;
 
   --error-bg: rgba(239, 68, 68, 0.06);
@@ -67,18 +73,25 @@
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
 
   --shadow-natural: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-deep: 0 8px 30px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  --surface-glow: rgba(176, 106, 30, 0.04);
+  --shadow-glow-accent: 0 0 20px rgba(176, 106, 30, 0.1);
+  --shadow-glow-focus: 0 0 0 3px rgba(176, 106, 30, 0.08);
+  --card-accent-border: rgba(176, 106, 30, 0.35);
+  --noise-opacity: 0.025;
 }
 
 @theme inline {
   --color-surface-primary: var(--surface-primary);
   --color-surface-secondary: var(--surface-secondary);
   --color-surface-elevated: var(--surface-elevated);
+  --color-surface-glow: var(--surface-glow);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
@@ -94,14 +107,33 @@
   --color-success-bg: var(--success-bg);
   --color-success-border: var(--success-border);
   --color-success-text: var(--success-text);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
 body {
-  background: var(--surface-primary);
+  background: radial-gradient(ellipse at 50% 30%, var(--surface-secondary) 0%, var(--surface-primary) 70%);
   color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
   transition: color 200ms ease, background-color 200ms ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── Keyframe animations ─── */
@@ -122,6 +154,45 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slideUpOvershoot {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes copyPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmerGlow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -146,21 +217,81 @@ body {
   animation: slideUp 250ms ease-out both;
 }
 
+.animate-slide-up-overshoot {
+  animation: slideUpOvershoot 400ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-copy-pop {
+  animation: copyPop 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-shimmer-glow {
+  animation: shimmerGlow 2s ease-in-out infinite;
+}
+
 .animate-skeleton {
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+
 .card {
   background: var(--surface-secondary);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-natural);
   transition: box-shadow 200ms ease, transform 200ms ease;
 }
 
-/* Smooth transitions on interactive elements */
+.card-accent {
+  border-top: 2px solid var(--card-accent-border);
+}
+
+/* ─── Selection styling ─── */
+::selection {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* ─── Custom scrollbar ─── */
+.article-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.article-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.article-scroll::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+.article-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
+
+/* ─── Global input/button ─── */
 button,
 input,
 textarea {
   transition: all 150ms ease;
+  caret-color: var(--accent-primary);
+}
+
+/* ─── Luxury input class ─── */
+.input-luxury {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease;
+}
+
+.input-luxury:focus {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), var(--shadow-glow-focus);
+  border-color: var(--border-focus);
+  outline: none;
 }

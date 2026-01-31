@@ -16,11 +16,11 @@ interface TweetCardProps {
 }
 
 const variantStyles: Record<TweetVariant, string> = {
-  primary: "card rounded-lg p-4",
+  primary: "card card-accent rounded-xl p-5",
   quoted:
-    "rounded-lg border border-border-default bg-surface-elevated p-3 mt-3",
-  parent: "card rounded-lg p-4 opacity-75",
-  "thread-item": "card rounded-lg p-4",
+    "rounded-xl border border-border-default bg-surface-elevated p-3 mt-3",
+  parent: "card rounded-xl p-4 opacity-70",
+  "thread-item": "card rounded-xl p-4",
 };
 
 function formatMetric(n: number): string {

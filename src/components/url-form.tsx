@@ -52,12 +52,12 @@ export function UrlForm() {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Paste a Twitter/X or article URL..."
-          className="w-full rounded-lg border border-border-default bg-surface-secondary px-4 py-3 pr-24 text-sm text-text-primary placeholder-text-tertiary focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-border-focus"
+          className="input-luxury w-full rounded-xl border border-border-default bg-surface-secondary px-5 py-4 pr-28 text-sm text-text-primary placeholder-text-tertiary backdrop-blur-sm"
         />
         <button
           type="submit"
           disabled={status === "loading" || !url.trim()}
-          className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-lg bg-accent-primary px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 hover:bg-accent-primary-hover active:scale-[0.98]"
+          className="absolute right-2 top-2 bottom-2 flex items-center gap-1.5 rounded-xl bg-gradient-to-b from-accent-primary to-accent-primary-hover px-4 text-sm font-medium text-white shadow-md disabled:cursor-not-allowed disabled:opacity-40 hover:shadow-lg hover:-translate-y-px active:scale-[0.98]"
         >
           <SearchIcon width={14} height={14} />
           {status === "loading" ? "Converting..." : "Convert"}
@@ -71,7 +71,7 @@ export function UrlForm() {
       )}
 
       {result && (
-        <div className="animate-slide-up">
+        <div className="animate-slide-up-overshoot">
           {result.ok ? (
             <ResultDisplay data={result.data} />
           ) : (

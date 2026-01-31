@@ -8,18 +8,27 @@ export default function Home() {
       <main className="flex-1 flex items-start justify-center px-4 pt-16 sm:pt-20">
         <div className="w-full max-w-2xl">
           <div className="mb-8 text-center">
-            <h2 className="text-[2.625rem] font-bold tracking-tight text-text-primary">
-              Convert any link
-            </h2>
-            <p className="mt-2 text-sm text-text-secondary">
+            <h1 className="font-display text-[3.5rem] sm:text-[4.5rem] font-normal italic tracking-tight leading-[1.1] text-text-primary">
+              TweetyWeety
+            </h1>
+            <p className="mt-2 text-lg sm:text-xl font-light tracking-wide text-text-secondary">
+              Convert any X/Twitter link
+            </p>
+            <p className="mt-2 text-sm font-light tracking-wide text-text-tertiary">
               Paste a Twitter/X post or article URL to extract clean, readable
               text.
             </p>
           </div>
-          <UrlForm />
+          <div className="relative">
+            <div className="absolute -inset-x-12 -inset-y-8 rounded-3xl bg-surface-glow blur-2xl pointer-events-none animate-shimmer-glow" />
+            <div className="relative">
+              <UrlForm />
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="py-4 text-center text-[0.8125rem] text-text-tertiary">
+      <footer className="relative py-6 text-center text-[0.8125rem] text-text-tertiary">
+        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-accent-primary/20 to-transparent" />
         TweetyWeety
       </footer>
     </div>

@@ -1,6 +1,6 @@
 export function TweetSkeleton() {
   return (
-    <div className="card mt-6 rounded-lg overflow-hidden p-4 space-y-4">
+    <div className="card mt-6 rounded-xl overflow-hidden p-5 space-y-4">
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 rounded-full bg-surface-elevated animate-skeleton" />
         <div className="space-y-2">
@@ -24,7 +24,7 @@ export function TweetSkeleton() {
 
 export function ArticleSkeleton() {
   return (
-    <div className="card mt-6 rounded-lg overflow-hidden p-4 space-y-4">
+    <div className="card mt-6 rounded-xl overflow-hidden p-5 space-y-4">
       <div className="h-5 w-3/4 rounded-sm bg-surface-elevated animate-skeleton" />
       <div className="flex gap-2">
         <div className="h-5 w-20 rounded-full bg-surface-elevated animate-skeleton" />

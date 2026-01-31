@@ -30,14 +30,14 @@ export function CopyMenu({ plainText, markdown }: CopyMenuProps) {
     <div className="flex items-center gap-1">
       <button
         onClick={() => copy(plainText, "copied-text")}
-        className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+        className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
           state === "copied-text"
             ? "bg-success-bg text-success-text"
-            : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
+            : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary hover:-translate-y-px hover:shadow-sm"
         }`}
       >
         {state === "copied-text" ? (
-          <CheckIcon width={12} height={12} />
+          <CheckIcon width={12} height={12} className="animate-copy-pop" />
         ) : (
           <CopyIcon width={12} height={12} />
         )}
@@ -45,14 +45,14 @@ export function CopyMenu({ plainText, markdown }: CopyMenuProps) {
       </button>
       <button
         onClick={() => copy(markdown, "copied-md")}
-        className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+        className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
           state === "copied-md"
             ? "bg-success-bg text-success-text"
-            : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
+            : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary hover:-translate-y-px hover:shadow-sm"
         }`}
       >
         {state === "copied-md" ? (
-          <CheckIcon width={12} height={12} />
+          <CheckIcon width={12} height={12} className="animate-copy-pop" />
         ) : (
           <MarkdownIcon width={12} height={12} />
         )}
