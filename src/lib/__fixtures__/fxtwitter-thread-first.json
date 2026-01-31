@@ -1,0 +1,20 @@
+{
+  "tweet": {
+    "text": "1/ I want to share what we've been building for the past 6 months. A thread on our new framework.",
+    "author": {
+      "name": "Jane Developer",
+      "screen_name": "janedev"
+    },
+    "created_at": "2024-12-15T14:30:00Z",
+    "likes": 1500,
+    "retweets": 400,
+    "replies": 78,
+    "bookmarks": 55,
+    "replying_to": null,
+    "replying_to_status": null,
+    "media": {
+      "all": []
+    },
+    "quote": null
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "tweet": {
+    "text": "We just launched our new product today! Check it out.",
+    "author": {
+      "name": "Jane Developer",
+      "screen_name": "janedev"
+    },
+    "created_at": "2024-12-15T14:00:00Z",
+    "likes": 5000,
+    "retweets": 1200,
+    "replies": 300,
+    "bookmarks": 150,
+    "replying_to": null,
+    "replying_to_status": null,
+    "media": {
+      "all": []
+    },
+    "quote": null
+  }
+}

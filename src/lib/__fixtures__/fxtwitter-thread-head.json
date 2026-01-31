@@ -1,0 +1,20 @@
+{
+  "tweet": {
+    "text": "3/ And finally, the performance improvements are incredible. 10x faster than before.",
+    "author": {
+      "name": "Jane Developer",
+      "screen_name": "janedev"
+    },
+    "created_at": "2024-12-15T14:35:00Z",
+    "likes": 890,
+    "retweets": 234,
+    "replies": 56,
+    "bookmarks": 30,
+    "replying_to": "janedev",
+    "replying_to_status": "1868000000000000002",
+    "media": {
+      "all": []
+    },
+    "quote": null
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "tweet": {
+    "text": "This is exactly what the industry needs. Great thread by @janedev",
+    "author": {
+      "name": "Tech Reviewer",
+      "screen_name": "techreviewer"
+    },
+    "created_at": "2024-12-15T16:00:00Z",
+    "likes": 230,
+    "retweets": 78,
+    "replies": 12,
+    "bookmarks": 15,
+    "replying_to": null,
+    "replying_to_status": null,
+    "media": {
+      "all": []
+    },
+    "quote": {
+      "text": "1/ I want to share what we've been building for the past 6 months. A thread on our new framework.",
+      "author": {
+        "name": "Jane Developer",
+        "screen_name": "janedev"
+      },
+      "created_at": "2024-12-15T14:30:00Z",
+      "likes": 1500,
+      "retweets": 400,
+      "replies": 78,
+      "bookmarks": 55,
+      "media": {
+        "all": []
+      }
+    }
+  }
+}

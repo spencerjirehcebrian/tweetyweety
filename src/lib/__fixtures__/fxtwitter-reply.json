@@ -1,0 +1,20 @@
+{
+  "tweet": {
+    "text": "This is amazing work! Congratulations on the launch.",
+    "author": {
+      "name": "Bob Commenter",
+      "screen_name": "bobcomments"
+    },
+    "created_at": "2024-12-15T15:00:00Z",
+    "likes": 45,
+    "retweets": 3,
+    "replies": 2,
+    "bookmarks": 1,
+    "replying_to": "janedev",
+    "replying_to_status": "1868000000000000010",
+    "media": {
+      "all": []
+    },
+    "quote": null
+  }
+}

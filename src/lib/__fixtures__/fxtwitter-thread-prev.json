@@ -1,0 +1,20 @@
+{
+  "tweet": {
+    "text": "2/ The architecture uses a modular approach that makes it easy to extend.",
+    "author": {
+      "name": "Jane Developer",
+      "screen_name": "janedev"
+    },
+    "created_at": "2024-12-15T14:33:00Z",
+    "likes": 650,
+    "retweets": 180,
+    "replies": 34,
+    "bookmarks": 20,
+    "replying_to": "janedev",
+    "replying_to_status": "1868000000000000001",
+    "media": {
+      "all": []
+    },
+    "quote": null
+  }
+}
