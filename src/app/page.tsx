@@ -5,10 +5,10 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 flex items-start justify-center px-4 pt-12 sm:pt-24">
+      <main className="flex-1 flex items-start justify-center px-4 pt-16 sm:pt-20">
         <div className="w-full max-w-2xl">
           <div className="mb-8 text-center">
-            <h2 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-4xl">
+            <h2 className="text-[2.625rem] font-bold tracking-tight text-text-primary">
               Convert any link
             </h2>
             <p className="mt-2 text-sm text-text-secondary">
@@ -19,7 +19,7 @@ export default function Home() {
           <UrlForm />
         </div>
       </main>
-      <footer className="py-4 text-center text-xs text-text-tertiary">
+      <footer className="py-4 text-center text-[0.8125rem] text-text-tertiary">
         TweetyWeety
       </footer>
     </div>

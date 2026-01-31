@@ -52,12 +52,12 @@ export function UrlForm() {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Paste a Twitter/X or article URL..."
-          className="glass w-full rounded-xl px-4 py-3 pr-24 text-sm text-text-primary placeholder-text-tertiary focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-border-focus focus:shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+          className="w-full rounded-lg border border-border-default bg-surface-secondary px-4 py-3 pr-24 text-sm text-text-primary placeholder-text-tertiary focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-border-focus"
         />
         <button
           type="submit"
           disabled={status === "loading" || !url.trim()}
-          className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:scale-[1.02] active:scale-[0.98]"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-lg bg-accent-primary px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 hover:bg-accent-primary-hover active:scale-[0.98]"
         >
           <SearchIcon width={14} height={14} />
           {status === "loading" ? "Converting..." : "Convert"}

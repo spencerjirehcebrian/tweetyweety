@@ -23,7 +23,7 @@ export function ArticleCard({ data }: ArticleCardProps) {
   }
 
   return (
-    <div className="glass rounded-xl overflow-hidden">
+    <div className="card rounded-lg overflow-hidden">
       {data.featuredImage && (
         <div className="h-48 w-full overflow-hidden bg-surface-secondary">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -37,25 +37,25 @@ export function ArticleCard({ data }: ArticleCardProps) {
 
       <div className="p-4 space-y-3">
         {data.title && (
-          <h2 className="text-lg font-bold text-text-primary">
+          <h2 className="text-lg font-semibold text-text-primary">
             {data.title}
           </h2>
         )}
 
         <div className="flex flex-wrap gap-2">
           {data.author && (
-            <span className="rounded-full bg-surface-secondary border border-border-default px-2.5 py-0.5 text-xs text-text-secondary">
+            <span className="rounded-full bg-surface-elevated border border-border-default px-2.5 py-0.5 text-xs text-text-secondary">
               {data.author}
             </span>
           )}
           {data.siteName && (
-            <span className="flex items-center gap-1 rounded-full bg-surface-secondary border border-border-default px-2.5 py-0.5 text-xs text-text-secondary">
+            <span className="flex items-center gap-1 rounded-full bg-surface-elevated border border-border-default px-2.5 py-0.5 text-xs text-text-secondary">
               <LinkIcon width={10} height={10} />
               {data.siteName}
             </span>
           )}
           {formattedDate && (
-            <span className="flex items-center gap-1 rounded-full bg-surface-secondary border border-border-default px-2.5 py-0.5 text-xs text-text-secondary">
+            <span className="flex items-center gap-1 rounded-full bg-surface-elevated border border-border-default px-2.5 py-0.5 text-xs text-text-secondary">
               <CalendarIcon width={10} height={10} />
               {formattedDate}
             </span>
@@ -68,7 +68,7 @@ export function ArticleCard({ data }: ArticleCardProps) {
           </p>
         )}
 
-        <div className="whitespace-pre-wrap leading-relaxed text-text-primary max-h-[60vh] overflow-y-auto">
+        <div className="whitespace-pre-wrap leading-relaxed text-[0.9375rem] text-text-primary max-h-[60vh] overflow-y-auto">
           {data.text}
         </div>
       </div>

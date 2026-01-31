@@ -33,7 +33,7 @@ export function CopyMenu({ plainText, markdown }: CopyMenuProps) {
         className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
           state === "copied-text"
             ? "bg-success-bg text-success-text"
-            : "text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
+            : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
         }`}
       >
         {state === "copied-text" ? (
@@ -48,7 +48,7 @@ export function CopyMenu({ plainText, markdown }: CopyMenuProps) {
         className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
           state === "copied-md"
             ? "bg-success-bg text-success-text"
-            : "text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
+            : "text-text-secondary hover:bg-surface-elevated hover:text-text-primary"
         }`}
       >
         {state === "copied-md" ? (

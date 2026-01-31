@@ -26,7 +26,7 @@ export function ResultDisplay({ data }: ResultDisplayProps) {
   return (
     <div className="mt-6 space-y-3">
       <div className="flex items-center justify-between">
-        <span className="rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 px-3 py-0.5 text-xs font-medium text-accent-primary">
+        <span className="rounded-full bg-surface-elevated border border-border-default px-3 py-0.5 text-xs font-medium text-accent-primary">
           {data.type === "twitter"
             ? data.thread.length > 0
               ? "Thread"

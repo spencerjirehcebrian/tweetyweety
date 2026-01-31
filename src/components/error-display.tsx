@@ -18,7 +18,7 @@ export function ErrorDisplay({ code, message }: ErrorDisplayProps) {
 
   return (
     <div className="mt-6 space-y-4">
-      <div className="rounded-xl border border-error-border bg-error-bg p-4 backdrop-blur-sm">
+      <div className="rounded-lg border border-error-border bg-error-bg p-4">
         <p className="text-sm text-error-text">{message}</p>
         {isRateLimited && (
           <p className="mt-2 text-xs text-text-tertiary">
@@ -40,7 +40,7 @@ export function ErrorDisplay({ code, message }: ErrorDisplayProps) {
             onChange={(e) => setManualText(e.target.value)}
             placeholder="Paste the tweet or article text here..."
             rows={6}
-            className="glass w-full rounded-lg p-3 text-sm text-text-primary placeholder-text-tertiary focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-border-focus"
+            className="w-full rounded-lg border border-border-default bg-surface-secondary p-3 text-sm text-text-primary placeholder-text-tertiary focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-border-focus"
           />
         </div>
       )}

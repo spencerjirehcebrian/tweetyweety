@@ -14,7 +14,7 @@ export function ThreadDisplay({ thread, mainTweet }: ThreadDisplayProps) {
   return (
     <div className="relative">
       {/* Vertical thread line */}
-      <div className="absolute left-6 top-4 bottom-4 w-0.5 bg-border-default" />
+      <div className="absolute left-6 top-4 bottom-4 w-px bg-border-default" />
 
       <div className="space-y-0">
         {allTweets.map((tweet, i) => {
