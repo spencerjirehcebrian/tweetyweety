@@ -1,0 +1,55 @@
+import { JSDOM } from "jsdom";
+import { Readability } from "@mozilla/readability";
+import { ArticleData } from "./types";
+
+export async function fetchArticle(
+  url: string,
+  signal: AbortSignal
+): Promise<ArticleData> {
+  let html: string;
+  try {
+    const res = await fetch(url, {
+      signal,
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("FETCH_FAILED");
+    }
+    html = await res.text();
+  } catch (err) {
+    if (err instanceof Error && err.message === "FETCH_FAILED") throw err;
+    throw new Error("FETCH_FAILED");
+  }
+
+  try {
+    const dom = new JSDOM(html, { url });
+    const reader = new Readability(dom.window.document);
+    const article = reader.parse();
+
+    if (!article || !article.textContent?.trim()) {
+      throw new Error("EMPTY_CONTENT");
+    }
+
+    return {
+      type: "article",
+      title: article.title ?? "",
+      text: article.textContent.trim(),
+      author: article.byline ?? null,
+      siteName: article.siteName ?? null,
+      excerpt: article.excerpt ?? null,
+    };
+  } catch (err) {
+    if (
+      err instanceof Error &&
+      (err.message === "EMPTY_CONTENT" || err.message === "FETCH_FAILED")
+    ) {
+      throw err;
+    }
+    throw new Error("PARSE_FAILED");
+  }
+}
