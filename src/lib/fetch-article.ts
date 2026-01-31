@@ -1,4 +1,4 @@
-import { JSDOM } from "jsdom";
+import { parseHTML } from "linkedom";
 import { Readability } from "@mozilla/readability";
 import { ArticleData } from "./types";
 
@@ -27,8 +27,8 @@ export async function fetchArticle(
   }
 
   try {
-    const dom = new JSDOM(html, { url });
-    const reader = new Readability(dom.window.document);
+    const { document } = parseHTML(html);
+    const reader = new Readability(document);
     const article = reader.parse();
 
     if (!article || !article.textContent?.trim()) {
